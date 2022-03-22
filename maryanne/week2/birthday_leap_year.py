@@ -1,3 +1,29 @@
+'''
+bellow is the code provided by the prof that we need to edit/add to by:
+extending  the simulation in one of the directions:
+1) weight the probability of drawing birthdays according to the bias in birthdays actually seen in the (a/any) population
+2) accommodate the possibility of encountering twins in any group by including the frequency of twins seen in the (or any) population
+3) add leap years to the simulation
+
+NOTE: we cannot use ant packages or libraries outside of the ones she has provided for us 
+'''
+
+# this is a starter script you will use to add your generalization of the bday problem
+
+from math import floor
+from random import choice
+import sys
+import matplotlib.pyplot as plt
+
+
+'''
+the code underneath is what i added to account for leap years. this math was based off of the info from:
+https://math.stackexchange.com/questions/4004667/birthday-paradox-with-leap-year#:~:text=The%20total%20probability%20of%20all,that%2C%20or%200.25%2F365.25.
+and http://www.efgh.com/math/birthday.htm
+if we continue with the assumption that every day is as equally likely except for feb 29 which is 1/4 as likely  which
+can occur in a space of 366 possibilities the total probability is 365.25
+what I'm struggling with is if im even on the right track, and how to add this information to the code above :( 
+'''
 def leap_year(year):
     '''
     :param int:
