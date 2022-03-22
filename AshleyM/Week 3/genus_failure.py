@@ -78,7 +78,7 @@ class emp_dist:
 
 # homework: calculate the probability of an input under the empirial distribution
 # as belonging to any of our genera
-    def prob_x(self,x=50):
+    def prob_x(self,x):
 
         # assign x to a bin
         for i in self.bins:
@@ -96,7 +96,7 @@ class emp_dist:
         for i in genera:
             generafreq = self.binfreqs()
             xgenfreq = generafreq[xbin]
-            if xfreq >= xgenfreq:
+            if xgenfreq >= xfreq:
                 xfreq = xgenfreq
                 xgen = genera[i]
 
