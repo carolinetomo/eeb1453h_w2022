@@ -17,7 +17,7 @@ def std(data_list):
     var = total_dev/float(len(data_list))
     return math.sqrt(var)
 
-#Get list of bins from data. data = [ data points ], bins = number of bins we want, output = [ [cut_0,cut_1],[cut_1,cut_2],..,[cut_bins-1,cut_bins] ]
+#Get list of bins from data. data = [ data points ], bins = number of bins we want, output = { 0:[cut_0,cut_1], 1:[cut_1,cut_2],..,bins:[cut_bins-1,cut_bins] }
 def make_cuts(data,bins): 
     biggest = max(data)
     smallest = min(data) 
