@@ -1,64 +1,34 @@
 import sys
-
-def make_cuts(dat,nbins=10):
-    biggest = max(dat)
-    smallest = min(dat)
-    span = biggest - smallest
-    bins = {}
-    binfloor = smallest
-    count = 0
-
-    binwidth = span/float(nbins)
-    while True:
-        if binfloor >= biggest:
-            break
-        binceiling = binfloor + binwidth
-        bins[count] = (binfloor,binceiling)
-        binfloor = binceiling
-        count+=1
-    return bins
-
-class emp_dist:
-    def __init__(self,dat):
-        self.dat = dat
-        self.bins = make_cuts(self.dat)
-        self.upper = 0.0
-        self.lower = 0.0
-        self.binp = self.binfreqs()
-
-    def binfreqs(self):
-        freqs = {}
-
-        for i in self.bins: # initialize our dictionary
-            freqs[i] = 0
-
-        for i in self.dat:
-            for j in self.bins:
-                currange = self.bins[j] # (bin min, bin_max)
-                if i >= currange[0] and i <= currange[1]:
-                    freqs[j] += 1
-                    break
-        tot = float(len(self.dat))
-        for i in freqs:
-            freqs[i] = freqs[i]/tot
-        return freqs
-
-    # calculate the probability of an input under the empirical dist
-    def prob_x(self,x):
-        return
-
-
-
+import distributions as d
 
 class genus:
     def __init__(self,genname):
         self.name = genname
         self.species = []
         self.data = {}
-        self.dist = None
+        self.dist = {}
 
     def mean(self, attr):
-        return
+        tot = 0
+        count = 0
+        for i in self.data["attr"]:
+            curval = self.data["attr"][i]
+            if curval != None:
+                tot+=curval
+        if count != 0:
+            m = tot/float(count)
+        else:
+            m = None
+        return m
+
+    def init_emp_dist(self,attr):
+        dist = d.emp_dist(self.data[attr])
+        self.dist['emp'] = dist
+
+    def init_norm_dist(self,attr):
+        dist = d.normal()
+        dist.fit_mle(self.data[attr])
+        self.dist['norm'] = dist
 
 def read_spdata(fl,delim="_"):
     opfl = open(fl,"r")
@@ -86,15 +56,16 @@ def read_spdata(fl,delim="_"):
     return genera
 
 
-def main(fl):
+def main(fl,test_meas):
     genera = read_spdata(fl)
-    print([i for i in genera])
-
-    """for gen in genera:
+    for gen in genera:
         if len(gen.data["diameter"])<4:
-            continue"""
+            continue
+        gen.init_emp_dist("diameter")
+        print(gen.name,gen.dist['emp'].prob_x(test_meas))
+        #print(gen.dist['emp'].p)
 
 
 if __name__ == "__main__":
-    # will need to adjust args to input an X. the goal is to find the most likely genus to which an unknown sample belongs
-    main(sys.argv[1])
+    # first arg should be data file, second arg should be value you want to evaluate across genera
+    main(sys.argv[1],float(sys.argv[2]))
