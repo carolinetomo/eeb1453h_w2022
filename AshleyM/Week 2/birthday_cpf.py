@@ -26,9 +26,10 @@ def share_bday(n):
         if count in leapyear:
             curbday = leap_bday()
             bdays.append(curbday)
-
-        curbday = pick_bday()
-        bdays.append(curbday)
+        else:
+            curbday = pick_bday()
+            bdays.append(curbday)
+    assert n == len(bdays)
     unique = set(bdays)
     if len(unique) < len(bdays):
         return True
