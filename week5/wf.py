@@ -8,16 +8,17 @@ class wf:
 
     def run(self,ngen=100):
         proc_freqs=[]
+        k = d.binomial(self.n, self.freq)
+
         for gen in range(ngen):
-            k = d.binomial(self.n, self.freq)
             freq_next = k.random_vec()[0] / self.n
             proc_freqs.append(freq_next)
             self.freq = freq_next
+            k.p = self.freq
         return proc_freqs
 
 
 
-"""
 class wf_sel:
     def __init__(self,n,freq,sel,her=1):
         self.n = n
@@ -40,17 +41,16 @@ class wf_sel:
             proc_freqs.append(freq_next)
             self.freq = freq_next
         return proc_freqs
-"""
 
 if __name__ == "__main__":
-    n = 10000
+    n = 100
     start_p = 0.5
-    #sel = 0.01
-    ngen = 100
+    sel = 0.1
+    ngen = 1000
     nrep = 100
     for i in range(nrep):
-        sim = wf(n,start_p)
-        #sim = wf_sel(n,start_p,sel)
+        #sim = wf(n,start_p)
+        sim = wf_sel(n,start_p,sel)
         walk = sim.run(ngen)
         plt.plot(range(len(walk)),walk)
     plt.show()

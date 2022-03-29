@@ -17,7 +17,6 @@ class bd:
         res = []
 
         sincelast = 0.0
-        waiting_times = []
         while True:
             if t >= window:
                 break
@@ -30,18 +29,12 @@ class bd:
             r = random()
             if r < prob_b:
                 self.pop_size += 1
-                waiting_times.append(sincelast)
-                sincelast = 0.0
             elif prob_b < r and r < (prob_b + prob_d):
                 self.pop_size -= 1
-                waiting_times.append(sincelast)
-                sincelast = 0.0
-            else:
-                sincelast += dt
             res.append(self.pop_size)
             t += dt
 
-        return res,waiting_times
+        return res
 
 if __name__ == "__main__":
     b = 0.09
@@ -52,15 +45,7 @@ if __name__ == "__main__":
     w = []
     for i in range(nrep):
         sim = bd(b,d,start_pop)
-        walk,wait_times = sim.run(window)
-        w += wait_times
+        walk = sim.run(window)
         plt.plot(range(len(walk)),walk)
     plt.show()
 
-    gm = 1/mean(w)
-
-    event_rate = b+d
-    print(gm,event_rate)
-    plt.hist(w)
-    plt.axvline(x=gm,color="red")
-    plt.show()
