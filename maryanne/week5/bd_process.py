@@ -36,9 +36,9 @@ class bd:
                 self.pop_size -= 1
                 times.append(sincelast)
                 sincelast = 0.0
-            else: #when evolution stops
+            else: #when changes stops
                 sincelast += dt
-            res.append(self.pop_size)
+            res.append(self.pop_size) #change the population size
             t += dt
 
         return res, times
