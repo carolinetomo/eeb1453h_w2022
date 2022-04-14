@@ -7,12 +7,12 @@ This contains two classes to simulate two continuous-time stochastic epidemic mo
 For both the models we have three classes S-Susceptible, I-Infected and R-Recovered. We also keep track of the D-Deaths. 
 
 SIR Dig: S -v-> I -g-> R and -b-> S and I -u-> D
-i.e. bS - birth rate; vSI - infection rate; gI - recovery rate; uI - death rate due to infection
+i.e. b*S - birth rate; v*S*I - infection rate; g*I - recovery rate; u*I - death rate due to infection
 Note: birth rate and death rate are not equal. 
 
 The SIRS model only differs in that there is a possibility of that recovered individuals lose their immunity and become susceptible again. 
 SIRS Dig: S -v-> I -g-> R -w-> S and -b-> S and I -u-> D
-i.e. bS - birth rate; vSI - infection rate; gI - recovery rate; uI - death rate due to infection; wR - Immunity loss rate
+i.e. b*S - birth rate; v*S*I - infection rate; g*I - recovery rate; u*I - death rate due to infection; w*R - Immunity loss rate
 Note: birth rate and death rate are not equal. 
 
 Note: SIRS with w=0 is the same as the SIR model
@@ -23,4 +23,36 @@ and Mean Pop Size (computed over 1000 runs) for both the models (1st row = SIR a
 2.) Lockdown_Quarantine.py 
 This contains two extensions to the SIRS to analyze the effect of lockdown and quarantining. The two classes correspond to having a single lockdown period
 or multiple lockdown periods. 
+
+Quarantine:
+In both the models, there is no I bin but instead we have Q-Quarantined Infected and uQ-unQuarantined Infected. Therefore, I = Q + uQ.
+We assume that only uQ individuals can cause new infections, i.e. infection rate is v*S*uQ. q is the probability that a newly infected individual is 
+quarantined. 
+
+Lockdown: 
+Lockdown is implented as period(s) where infection rate is zero. There are two possible cases corresponding to the two clases as described below. 
+In both cases, the total time of lockdown is ld_time 
+i) Single Lockdown (class SIRS_SLQ): There is a single lockdown period of from time 0 to time ld_time. 
+ii) Multiple Lockdwon (class SIRS_MLQ): There are three lockdowns of length ld_time/3 with ld_time/3 time of non-lockdown between each period. 
+Therefore, lockdown periods are from 0 to ld_time/3. 2*ld_time/3 tp 3*ld_time/3 and 4*ld_time/3 to 5*ld_time/3 
+
+Notes: 
+In this we run the simulations until there are zero infections in the population. Therefore there are only two possible cases 
+Eradication : We say that the infection has been eradicated if infections are zero and atleast 10 individuals in the population are alive. 
+Extinction : When infections are zero, if there are less than 10 individuals who are alive we consider it extinction. 
+
+Plots: Parameters unless stated otherwise b = 0.05; v = 0.2; u = 0.1; g = 0.1; w = 0.2; q = 0 
+Erad_Eg_SLQ, an example of eradication with Single Lockdown Period with ld_time = 10 
+Erad_Eg_MLQ, an example of eradication with Multiple Lockdown Periods with ld_time = 30
+Erad_Non_Eg, an example of population extinction with SLD and ld_time = 10. Note that there are still some alive individuals at the end but <10 
+Effect_Single_Lockown, The effect of the period of single locdown on various metrics, Eradication Prob, Mean Population size, Mean number of deaths 
+and Mean time to eradication. 
+NOTE : Mean time to eradication includes the extinction cases (so a weird metric) 
+LD_vs_Istart_q_vary, Critical lockdow time as a function of starting number of infections for different quarantine probabilities in a SLQ model  
+LD_vs_Istart_q_vary_MLD, Critical lockdow time as a function of starting number of infections for different quarantine probabilities in a SLQ and MLQ model 
+
+Critical Lockdown Time - The minimum lockdown period to have a 80% chance of eradication. 
+
+
+
 
