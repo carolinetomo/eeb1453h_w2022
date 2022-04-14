@@ -1,0 +1,26 @@
+This is a summary of the graphs and code for Week 6 assignemt.
+There are two main code files, SIR_SIRS.py and Lockdown_Quarantine.py, and a side file, distributions.py, which contains some methods and distributions 
+that are used in the new main files 
+
+1.) SIR_SIRS.py
+This contains two classes to simulate two continuous-time stochastic epidemic models, namely, SIR and SIRS.
+For both the models we have three classes S-Susceptible, I-Infected and R-Recovered. We also keep track of the D-Deaths. 
+
+SIR Dig: S -v-> I -g-> R and -b-> S and I -u-> D
+i.e. bS - birth rate; vSI - infection rate; gI - recovery rate; uI - death rate due to infection
+Note: birth rate and death rate are not equal. 
+
+The SIRS model only differs in that there is a possibility of that recovered individuals lose their immunity and become susceptible again. 
+SIRS Dig: S -v-> I -g-> R -w-> S and -b-> S and I -u-> D
+i.e. bS - birth rate; vSI - infection rate; gI - recovery rate; uI - death rate due to infection; wR - Immunity loss rate
+Note: birth rate and death rate are not equal. 
+
+Note: SIRS with w=0 is the same as the SIR model
+
+Plots: Effect_b, Effect_v, Effect_u, Effect_g shows the effect of increasing the respective parameters on dynamics (One instance of the model is ploted) 
+and Mean Pop Size (computed over 1000 runs) for both the models (1st row = SIR and 2nd row = SIRS)
+
+2.) Lockdown_Quarantine.py 
+This contains two extensions to the SIRS to analyze the effect of lockdown and quarantining. The two classes correspond to having a single lockdown period
+or multiple lockdown periods. 
+
